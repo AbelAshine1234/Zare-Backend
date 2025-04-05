@@ -1,0 +1,27 @@
+{
+  
+"development": {
+    "username": "abel",
+    "password": "0512",
+    "database": "zareshop",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "abel",
+    "password": "0512",
+    "database": "zareshop_test",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "abel",
+    "password": "0512",
+    "database": "zareshop_prod",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}
