@@ -42,7 +42,7 @@ const Address = sequelize.define('Address', {
     place_id: {  
         type: DataTypes.STRING,
         allowNull: true,
-        unique: true
+        unique: false
     }
 }, {
     timestamps: true

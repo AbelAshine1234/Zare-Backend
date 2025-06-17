@@ -10,6 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoute');
 const addressRoutes = require('./routes/addressRoutes'); // Assuming you have this file
+const businessRoutes = require('./routes/businessRoutes'); // Assuming you have this file
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/addresses', addressRoutes); // Add this line if you have addressRoutes
+app.use('/api/business', businessRoutes); // Add this line if you have addressRoutes
 
 // 404 handler
 app.use((req, res) => {

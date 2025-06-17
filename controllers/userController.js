@@ -1,4 +1,6 @@
 const UserService = require('../services/userService');
+const Address = require('../models/Address')
+const User = require('../models/User')
 const registerUser = async (req, res) => {
     try {
         const user = await UserService.createUser(req.body);
@@ -54,5 +56,104 @@ const getUserProfile = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json({ success: true, data: users });
+  } catch (error) {
+    console.error("getAllUsers error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+      error: error.message,
+    });
+  }
+};
 
-module.exports = { registerUser, loginUser, getUserProfile,verifyOTP };
+// 2. Get single user by ID
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    res.json({ success: true, data: user });
+  } catch (error) {
+    console.error("getUserById error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user",
+      error: error.message,
+    });
+  }
+};
+
+// 3. Get all customers (role = 'customer')
+const getCustomers = async (req, res) => {
+  try {
+    const customers = await User.findAll({ where: { role: "customer" } });
+    res.json({ success: true, data: customers });
+  } catch (error) {
+    console.error("getCustomers error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch customers",
+      error: error.message,
+    });
+  }
+};
+
+// 4. Get all sellers (role = 'seller')
+const getSellers = async (req, res) => {
+  try {
+    const sellers = await User.findAll({ where: { role: "seller" } });
+    res.json({ success: true, data: sellers });
+  } catch (error) {
+    console.error("getSellers error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch sellers",
+      error: error.message,
+    });
+  }
+};
+
+const attachAddressToUser = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assumes user is authenticated
+    const { address_id } = req.body;
+
+    // Just do the business logic — no validation here
+    const address = await Address.findByPk(address_id);
+    if (!address) {
+      return res.status(404).json({ success: false, message: 'Address not found.' });
+    }
+
+    const user = await User.findByPk(userId);
+    user.address_id = address_id;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Address attached to user successfully.',
+      data: user,
+    });
+  } catch (error) {
+    console.error('attachAddressToUser error:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+  }
+};
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  verifyOTP,
+  getAllUsers,
+  getUserById,
+  getCustomers,
+  getSellers,
+  attachAddressToUser
+};

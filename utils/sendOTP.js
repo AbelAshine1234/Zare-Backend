@@ -4,7 +4,9 @@ const twilio = require("twilio");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifyServiceSid = process.env.VERIFY_SERVICE_SID;
-const client = new twilio(accountSid, authToken);
+
+const client = require('twilio')(accountSid, authToken);
+
 
 /**
  * Send OTP to user phone number using Twilio Verify

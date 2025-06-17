@@ -4,7 +4,6 @@ const config = require("../config/config.json");
 const env = process.env.NODE_ENV || "development";
 const dbConfig = config[env];
 
-// Connect to the default "postgres" database to create the target database
 const adminSequelize = new Sequelize("postgres", dbConfig.username, dbConfig.password, {
   host: dbConfig.host,
   port: dbConfig.port,
@@ -14,8 +13,7 @@ const adminSequelize = new Sequelize("postgres", dbConfig.username, dbConfig.pas
 
 async function createDatabase() {
   try {
-    // Check if database exists
-    const [databases] = await adminSequelize.query(
+    const databases = await adminSequelize.query(
       "SELECT datname FROM pg_database WHERE datname = :dbName",
       {
         replacements: { dbName: dbConfig.database },
@@ -23,7 +21,7 @@ async function createDatabase() {
       }
     );
 
-    if (!databases || databases.length === 0) {
+    if (databases.length === 0) {
       await adminSequelize.query(`CREATE DATABASE "${dbConfig.database}";`);
       console.log(`Database '${dbConfig.database}' created successfully.`);
     } else {

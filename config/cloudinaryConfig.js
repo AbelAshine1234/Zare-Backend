@@ -1,11 +1,23 @@
 const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// Hardcoded Configuration
 cloudinary.config({
-    cloud_name: 'dddiaaofj', // Replace with your actual Cloudinary cloud name
-    api_key: '868597764483733', // Replace with your actual API key
-    api_secret: 'dT-9mngHlwVBIIiLUvAEAvKK9X0', // Replace with your actual API secret
-    secure: true // Ensures HTTPS URLs
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  
+  api_key: process.env.CLOUDINARY_API_KEY,         
+  api_secret: process.env.CLOUDINARY_API_SECRET,   
+  secure: true,
 });
 
-module.exports = cloudinary;
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'businessinfo',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+    resource_type: 'image',
+  },
+});
+
+module.exports = {
+  cloudinary,
+  storage,
+};
