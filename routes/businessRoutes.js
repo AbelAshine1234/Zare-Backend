@@ -8,16 +8,6 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Use named fields for better control
-router.post(
-  '/',
-  upload.fields([
-    { name: 'license', maxCount: 1 },
-    { name: 'cover_picture', maxCount: 1 },
-    { name: 'fayda', maxCount: 1 } // optional
-  ]),
-  addBusinessinfo
-);
-router.get('/',getTest)
+ 
 
 module.exports = router;
