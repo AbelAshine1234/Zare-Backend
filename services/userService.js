@@ -35,6 +35,8 @@ const createUser = async (userData) => {
 
 
 const verifyOTPService = async (phone_number, otp) => {
+    console.log("VERIFY_SERVICE_SID:", process.env.VERIFY_SERVICE_SID);
+
     try {
         const verificationCheck = await client.verify.v2
             .services(process.env.VERIFY_SERVICE_SID)
