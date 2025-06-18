@@ -1,5 +1,5 @@
-// const express = require('express');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
 // const ProductController = require('../controllers/ProductController');
 
 // router.post('/products', ProductController.createProduct);
@@ -8,4 +8,4 @@
 // router.post('/products/:productId/images', ProductController.addImageToProduct);
 // router.delete('/products/:productId', ProductController.deleteProduct);
 
-// module.exports = router;
+module.exports = router;
