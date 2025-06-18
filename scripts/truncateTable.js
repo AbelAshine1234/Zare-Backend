@@ -2,6 +2,7 @@ const sequelize = require('../config/db'); // Adjust the path based on your proj
 const User = require('../models/User');
 const Address = require('../models/Address');
 const Image = require('../models/Image');
+const Information = require('../models/Information');
 
 async function truncateTables() {
     try {
@@ -10,6 +11,7 @@ async function truncateTables() {
         await User.destroy({ where: {}, force: true });
         await Address.destroy({ where: {}, force: true });
         await Image.destroy({ where: {}, force: true });
+        await Information.destroy({ where: {}, force: true });
         
         console.log('All tables truncated successfully!');
     } catch (error) {

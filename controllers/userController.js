@@ -1,6 +1,7 @@
 const UserService = require('../services/userService');
 const Address = require('../models/Address')
-const User = require('../models/User')
+const User = require('../models/User');
+const Information = require('../models/Information');
 const registerUser = async (req, res) => {
     try {
         const user = await UserService.createUser(req.body);
@@ -146,6 +147,41 @@ const attachAddressToUser = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
   }
 };
+
+const attachInformationToUser = async (req, res) => {
+  try {
+      const userId = req.user.id; // Assumes user is authenticated
+      const {information_id } = req.body;
+
+      const information = await Information.findByPk(information_id);
+      if (!information) {
+          return res.status(404).json({ success: false, message: 'Information not found.' });
+      }
+
+      const user = await User.findByPk(userId); // Use the correct model
+      if (!user) {
+          return res.status(404).json({ success: false, message: 'User not found.' });
+      }
+
+      // CORRECTED: Assign the ID of the business_info object
+      user.information_id = information.id;
+      await user.save();
+
+      return res.status(200).json({
+          success: true,
+          message: 'Information attached to user successfully.',
+          data: user,
+      });
+  } catch (error) {
+      console.error('attach Information error:', error);
+      return res.status(500).json({
+          success: false,
+          message: 'Internal server error',
+          error: error.message,
+      });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -155,5 +191,6 @@ module.exports = {
   getUserById,
   getCustomers,
   getSellers,
-  attachAddressToUser
+  attachAddressToUser,
+  attachInformationToUser
 };

@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const crypto = require('crypto');
 const { sendOTP } = require("../utils/sendOTP");
-const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+const client = twilio("ACad91b82ae8a1a8de3957958635a3be70", "2978199df6f773719806bf552ca8e420");
 
 
 const createUser = async (userData) => {
@@ -34,31 +34,53 @@ const createUser = async (userData) => {
 
 
 
+ 
+
 const verifyOTPService = async (phone_number, otp) => {
-    console.log("VERIFY_SERVICE_SID:", process.env.VERIFY_SERVICE_SID);
+  if (!process.env.VERIFY_SERVICE_SID) {
+    return {
+      success: false,
+      status: 500,
+      message: "Verification service configuration missing.",
+    };
+  }
 
-    try {
-        const verificationCheck = await client.verify.v2
-            .services(process.env.VERIFY_SERVICE_SID)
-            .verificationChecks.create({ to: phone_number, code: otp });
+  try {
+    const verificationCheck = await client.verify.v2
+      .services(process.env.VERIFY_SERVICE_SID)
+      .verificationChecks.create({
+        to: phone_number,
+        code: otp,
+      });
 
-        if (verificationCheck.status !== "approved") {
-            return { success: false, status: 400, message: "Invalid or expired OTP" };
-        }
+    if (verificationCheck.status === "approved") {
+       // Mark the user as verified in your database
+       const user = await User.findOne({ where: { phone_number } });
+       if (user) {
+           user.verified = true;
+           await user.save();
+       }
 
-        // Mark the user as verified in your database
-        const user = await User.findOne({ where: { phone_number } });
-        if (user) {
-            user.verified = true;
-            await user.save();
-        }
-
-        return { success: true, message: "User verified successfully" };
-    } catch (error) {
-        console.error("OTP verification failed:", error.message);
-        return { success: false, status: 500, message: "Failed to verify OTP. Please try again." };
+       return { success: true, message: "User verified successfully" }
+    } else {
+      return {
+        success: false,
+        status: 400,
+        message: "OTP verification failed or code incorrect.",
+      };
     }
+  } catch (error) {
+    // This can be due to Twilio errors, network issues, etc.
+    return {
+      success: false,
+      status: 500,
+      message: error.message || "Verification service error.",
+    };
+  }
 };
+
+  
+
 
 
 const loginUser = async (phone_number, password) => {

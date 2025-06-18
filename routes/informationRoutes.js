@@ -1,9 +1,9 @@
 const express = require('express');
 const multer = require('multer'); // File upload middleware
 const {
-  addBusinessinfo,
-  getAllBusinessinfo,
-} = require("../controllers/businessinfoController");
+   addInformation,
+  getAllInformation,
+} = require("../controllers/addInformationController");
 
 const router = express.Router();
 
@@ -11,8 +11,8 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-router.post("/", upload.any(), addBusinessinfo);
-router.get("/", getAllBusinessinfo);
+router.post("/", upload.any(), addInformation);
+router.get("/", getAllInformation);
  
 
 module.exports = router;

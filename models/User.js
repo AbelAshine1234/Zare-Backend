@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Address = require('./Address'); // Import Address model
 const Image = require('./Image'); // Import Image model
-const Businessinfo = require('./Businessinfo')
+const Information = require('./Information');
 
 const User = sequelize.define('User', {
     id: {
@@ -52,11 +52,11 @@ const User = sequelize.define('User', {
         },
         onDelete: 'SET NULL' // If address is deleted, set address_id to NULL
     },
-    businessinfo_id: {
+    information_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: Businessinfo,
+            model: Information,
             key: 'id'
         },
         onDelete: 'SET NULL'  // If businessinfo deleted, set businessinfo_id to null

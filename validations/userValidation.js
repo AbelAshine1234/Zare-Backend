@@ -102,5 +102,13 @@ const attachAddressSchema = customJoi.object({
     'number.positive': 'Address ID must be a positive number.',
   })
 }).options({ stripUnknown: true });
+const attachInformationSchema = customJoi.object({
+  information_id: customJoi.number().integer().positive().required().messages({
+    'any.required': 'Information ID is required.',
+    'number.base': 'Information ID must be a number.',
+    'number.integer': 'Information ID must be an integer.',
+    'number.positive': 'Information ID must be a positive number.',
+  })
+}).options({ stripUnknown: true });
 
-module.exports = { loginUserSchema, registerUserSchema, verifyOTPSchema,attachAddressSchema };
+module.exports = { loginUserSchema, registerUserSchema, verifyOTPSchema,attachAddressSchema,attachInformationSchema };

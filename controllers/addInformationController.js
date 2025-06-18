@@ -1,15 +1,13 @@
 const { cloudinary } = require("../config/cloudinaryConfig"); // ✅ Correct
-const Businessinfo = require("../models/Businessinfo");
+const Information = require('../models/Information')
 
-const addBusinessinfo = async (req, res) => {
+const addInformation = async (req, res) => {
   try {
     // Ensure files exist
     if (!req.files || req.files.length < 3) {
-      return res
-        .status(400)
-        .json({
-          message: "License, cover picture, and Fayda image are required.",
-        });
+      return res.status(400).json({
+        message: "License, cover picture, and Fayda image are required.",
+      });
     }
 
     // Map uploaded files by original field names
@@ -48,7 +46,7 @@ const addBusinessinfo = async (req, res) => {
     ]);
 
     // Save to DB
-    const businessinfo = await Businessinfo.create({
+    const information = await Information.create({
       license: licenseUrl,
       cover_picture: coverUrl,
       fayda: faydaUrl,
@@ -56,25 +54,23 @@ const addBusinessinfo = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Business info created successfully", businessinfo });
+      .json({ message: "Information created successfully", information });
   } catch (err) {
     console.error("Error creating businessinfo:", err);
     res.status(500).json({ message: "Server error", details: err.message });
   }
 };
 
-const getAllBusinessinfo = async (req, res) => {
+const getAllInformation = async (req, res) => {
   try {
-    const businesses = await Businessinfo.findAll();
-    res
-      .status(200)
-      .json({
-        message: "All business info fetched successfully",
-        data: businesses,
-      });
+    const informations = await Information.findAll();
+    res.status(200).json({
+      message: "All Information fetched successfully",
+      data: informations,
+    });
   } catch (err) {
-    console.error("Error fetching business info:", err);
+    console.error("Error fetching Information:", err);
     res.status(500).json({ message: "Server error", details: err.message });
   }
 };
-module.exports = { addBusinessinfo, getAllBusinessinfo };
+module.exports = { addInformation, getAllInformation };

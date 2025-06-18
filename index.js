@@ -10,7 +10,7 @@ const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoute');
 
 const addressRoutes = require('./routes/addressRoutes'); // Commented out until fixed
-const businessRoutes = require('./routes/businessRoutes'); // Commented out until fixed
+const informationRoutes = require('./routes/informationRoutes'); // Commented out until fixed
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 // Uncomment after fixing addressRoutes export/import
 app.use('/api/addresses', addressRoutes);
-app.use('/api/business',businessRoutes)
+app.use('/api/information',informationRoutes)
 
 // 404 handler
 app.use((req, res) => {
