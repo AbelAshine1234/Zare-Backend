@@ -6,7 +6,8 @@ require('dotenv').config();
 
 const crypto = require('crypto');
 const { sendOTP } = require("../utils/sendOTP");
-const client = twilio("ACad91b82ae8a1a8de3957958635a3be70", "2978199df6f773719806bf552ca8e420");
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
 
 
 const createUser = async (userData) => {
