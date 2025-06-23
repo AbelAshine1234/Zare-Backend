@@ -1,35 +1,51 @@
 const Address = require('../models/Address');
-
+const User = require('../models/User')
 // Create new address
-exports.createAddress = async (req, res) => {
+
+exports.createAddressAndAttachToUser = async (req, res) => {
   try {
+    const userId = req.user.id;
     const { place_id } = req.body;
 
     if (!place_id) {
-      return res.status(400).json({ success: false, message: 'Place ID is required.' });
-    }
-
-    // Check if address already exists
-    const existingAddress = await Address.findOne({ where: { place_id } });
-
-    if (existingAddress) {
-      return res.status(200).json({
-        success: true,
-        message: 'Address already exists.',
-        data: existingAddress
+      return res.status(400).json({
+        success: false,
+        message: 'Place ID is required.',
       });
     }
 
-    // Otherwise, create a new one
-    const address = await Address.create(req.body);
-    res.status(201).json({ success: true, data: address });
+    // Check if address already exists
+    let address = await Address.findOne({ where: { place_id } });
 
+    if (!address) {
+      // Create new address
+      address = await Address.create(req.body);
+    }
+
+    // Find and update the user
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found.',
+      });
+    }
+
+    user.address_id = address.id;
+    await user.save();
+
+    return res.status(201).json({
+      success: true,
+      message: 'Address created (or reused) and attached to user successfully.',
+      address,
+      user,
+    });
   } catch (error) {
-    console.error('Error creating address:', error);
-    res.status(500).json({
+    console.error('Error in createAddressAndAttachToUser:', error);
+    return res.status(500).json({
       success: false,
-      message: 'Failed to create address',
-      error: error.message
+      message: 'Internal server error',
+      error: error.message,
     });
   }
 };

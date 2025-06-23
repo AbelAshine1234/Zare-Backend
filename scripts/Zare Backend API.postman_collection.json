@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5a1066bf-6649-4a86-9d46-e0d4195f3f01",
+		"_postman_id": "{{random-uuid}}",
 		"name": "Zare Backend API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "33810044"
+		"description": "Postman collection for Zare Backend API. Contains endpoints for Auth, Users, Products, Orders, Addresses, and Admin.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -13,37 +13,30 @@
 					"name": "Register User",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"John\",\r\n    \"surname\": \"Doe\",\r\n    \"phone_number\": \"+251912345678\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"password\": \"securePass123\",\r\n    \"role\": \"customer\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"phone_number\": \"+251912345678\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"securePass123\",\n  \"role\": \"customer\"\n}"
 						},
 						"url": "{{base_url}}/api/users/register"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Login",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"phone_number\": \"+251986064500\",\r\n    \"password\": \"securePass123\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\n  \"phone_number\": \"+251912345678\",\n  \"password\": \"securePass123\"\n}"
 						},
-						"url": "{{base_url}}/api/users/login"
-					},
-					"response": []
+						"url": "{{base_url}}/api/users/login",
+						"description": "Login endpoint for users to authenticate."
+					}
 				},
 				{
 					"name": "Refresh Token",
@@ -51,17 +44,15 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/auth/refresh"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Validate User",
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": ""
-					},
-					"response": []
+						"url": "{{base_url}}/auth/validate"
+					}
 				}
 			]
 		},
@@ -74,8 +65,7 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/users"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get User by ID",
@@ -84,44 +74,34 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/users/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["users", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "user_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Update User Profile",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane\",\n  \"surname\": \"Smith\",\n  \"email\": \"jane.smith@example.com\"\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/users/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["users", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "user_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Delete User",
@@ -130,21 +110,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/users/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["users", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "user_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -155,10 +127,15 @@
 					"name": "Create Product",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"A sample product.\",\n  \"price\": 100,\n  \"stock\": 10\n}"
+						},
 						"url": "{{base_url}}/products"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get All Products",
@@ -166,8 +143,7 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/products"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get Product by ID",
@@ -176,44 +152,34 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/products/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"products",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["products", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "product_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Update Product",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"Updated description.\",\n  \"price\": 120,\n  \"stock\": 8\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/products/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"products",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["products", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "product_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Delete Product",
@@ -222,21 +188,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/products/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"products",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["products", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "product_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -247,10 +205,15 @@
 					"name": "Create Order",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"user_id\",\n  \"products\": [{\n    \"product_id\": \"product_id\",\n    \"quantity\": 2\n  }],\n  \"address_id\": \"address_id\"\n}"
+						},
 						"url": "{{base_url}}/orders"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get All Orders",
@@ -258,8 +221,7 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/orders"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get Order by ID",
@@ -268,44 +230,34 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/orders/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["orders", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "order_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Update Order",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"shipped\"\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/orders/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["orders", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "order_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Cancel Order",
@@ -314,21 +266,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/orders/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["orders", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "order_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -339,10 +283,15 @@
 					"name": "Add Address",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"user_id\",\n  \"address_line1\": \"123 Main St\",\n  \"city\": \"Addis Ababa\",\n  \"country\": \"Ethiopia\"\n}"
+						},
 						"url": "{{base_url}}/addresses"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get All Addresses",
@@ -350,8 +299,7 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/addresses"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Get Address by ID",
@@ -360,44 +308,34 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/addresses/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"addresses",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["addresses", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "address_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Update Address",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address_line1\": \"456 New St\",\n  \"city\": \"Adama\",\n  \"country\": \"Ethiopia\"\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/addresses/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"addresses",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["addresses", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "address_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Delete Address",
@@ -406,21 +344,13 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/addresses/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"addresses",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["addresses", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "address_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -433,34 +363,36 @@
 						"method": "GET",
 						"header": [],
 						"url": "{{base_url}}/admin/stats"
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Manage Users",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\": \"admin\"\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/admin/users/:id",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"admin",
-								"users",
-								":id"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["admin", "users", ":id"],
 							"variable": [
-								{
-									"key": "id"
-								}
+								{ "key": "id", "value": "user_id" }
 							]
 						}
-					},
-					"response": []
+					}
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000"
 		}
 	]
 }
